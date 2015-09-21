@@ -32,7 +32,8 @@ public class TopWords {
         List<String> commonWords = Arrays.asList("the", "a", "an", "and",
                 "of", "to", "in", "am", "is", "are", "at", "not");
         String separators = " \t,;.?!-:@[](){}_*/";
-        @Override public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
+        @Override
+        public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
             String line = value.toString();
             StringTokenizer tokenizer = new StringTokenizer(line, separators);
             while (tokenizer.hasMoreTokens()){
@@ -44,7 +45,8 @@ public class TopWords {
         }
     }
     public static class WordCountReduce extends Reducer<Text, IntWritable, Text, IntWritable>{
-        @Override public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
+        @Override
+        public void reduce(Text key, Iterable<IntWritable> values, Context context) throws IOException, InterruptedException {
             int sum = 0;
             for(IntWritable val : values){
                 sum += val.get();
@@ -53,30 +55,35 @@ public class TopWords {
         }
     }
     public static class TopWordsMap extends Mapper<Text, Text,
-            NullWritable, TextArrayWritable>{
+            NullWritable, TextArrayWritable> {
         private TreeSet<Pair<Integer, String>> countToWordMap =
                 new TreeSet<Pair<Integer, String>>();
-        @Override public void map(Text key, Text value, Reducer.Context context)
-            throws IOException, InterruptedException {
+
+        @Override
+        public void map(Text key, Text value, Context context)
+                throws IOException, InterruptedException {
             Integer count = Integer.parseInt(value.toString());
             String word = key.toString();
             countToWordMap.add(new Pair<Integer, String>(count, word));
-            if(countToWordMap.size()>10){
+            if (countToWordMap.size() > 10) {
                 countToWordMap.remove(countToWordMap.first());
             }
         }
-    }
-    @Override protected void cleanup(Context context) throws IOException, InterruptedException {
-        for(Pair<Integer, String> item : countToWordMap){
-            String[] strings = {item.second, item.first.toString()};
-            TextArrayWritable val = new TextArrayWritable(strings);
-            context.write(NullWritable.get(), val);
+
+        @Override
+        protected void cleanup(Context context) throws IOException, InterruptedException {
+            for (Pair<Integer, String> item : countToWordMap) {
+                String[] strings = {item.second, item.first.toString()};
+                TextArrayWritable val = new TextArrayWritable(strings);
+                context.write(NullWritable.get(), val);
+            }
         }
     }
     public static class TopWordsReduce extends Reducer<NullWritable, TextArrayWritable, Text, IntWritable>{
         private TreeSet<Pair<Integer, String>> countToWordMap = new TreeSet<Pair<Integer, String>>();
 
-        @Override public void reduce(NullWritable key, Iterable<TextArrayWritable> values, Context context)
+        @Override
+        public void reduce(NullWritable key, Iterable<TextArrayWritable> values, Context context)
             throws IOException, InterruptedException {
             for(TextArrayWritable val : values){
                 Text[] pair = (Text[]) val.toArray();
