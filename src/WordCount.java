@@ -2,26 +2,17 @@
  * Created by mdautrey on 17/09/15.
  */
 import java.io.IOException;
-import java.lang.*;
-import java.lang.Exception;
-import java.lang.InterruptedException;
-import java.lang.Iterable;
-import java.lang.Override;
-import java.lang.String;
-import java.lang.System;
 import java.util.*;
-import java.util.Objects;
-import java.util.StringTokenizer;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
-import org.apache.hadoop.mapred.FileOutputFormat;
-import org.apache.hadoop.mapred.jobcontrol.Job;
+import org.apache.hadoop.io.Text;
+import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
-
-import javax.xml.soap.Text;
+import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 
 public class WordCount {
