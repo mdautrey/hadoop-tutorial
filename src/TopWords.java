@@ -97,7 +97,7 @@ public class TopWords {
             for(TextArrayWritable val : values){
                 Text[] pair = (Text[]) val.toArray();
 
-                String word = pair[0].toString();p
+                String word = pair[0].toString();
                 Integer count = Integer.parseInt(pair[1].toString());
                 countToWordMap.add(new Pair<Integer, String>(count, word));
                 if(countToWordMap.size() > 10){
