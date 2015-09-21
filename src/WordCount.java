@@ -2,6 +2,7 @@
  * Created by mdautrey on 17/09/15.
  */
 import java.io.IOException;
+import java.lang.String;
 import java.util.*;
 
 import org.apache.hadoop.conf.Configuration;
@@ -17,12 +18,17 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 public class WordCount {
     public static class WordCountMap extends Mapper<Object, Text, Text, IntWritable> {
-        @Override public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
+        List<String> commonWords = Arrays.asList("the", "a", "an", "and",
+                "of", "to", "in", "am", "is", "are", "at", "not");
+        String separators = " \t,;.?!-:@[](){}_*/";
+        public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
             String line = value.toString();
-            StringTokenizer tokenizer = new StringTokenizer(line);
+            StringTokenizer tokenizer = new StringTokenizer(line, separators);
             while (tokenizer.hasMoreTokens()){
-                String nextToken = tokenizer.nextToken();
-                context.write(new Text(nextToken), new IntWritable(1));
+                String nextToken = tokenizer.nextToken().trim().toLowerCase();
+                if(!commonWords.contains(nextToken)) {
+                    context.write(new Text(nextToken), new IntWritable(1));
+                }
             }
         }
 
