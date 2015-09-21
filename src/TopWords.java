@@ -1,27 +1,11 @@
 import java.io.IOException;
-import java.lang.*;
-import java.lang.Comparable;
-import java.lang.Exception;
 import java.lang.Integer;
-import java.lang.InterruptedException;
-import java.lang.Override;
-import java.lang.String;
-import java.lang.System;
 import java.util.*;
-import java.util.Map;
-import java.util.Objects;
-import java.util.TreeSet;
 
-import javafx.util.Pair;
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.*;
-import org.apache.hadoop.io.ArrayWritable;
-import org.apache.hadoop.io.IntWritable;
-import org.apache.hadoop.io.NullWritable;
-import org.apache.hadoop.io.Text;
-import org.apache.hadoop.mapred.KeyValueTextInputFormat;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
