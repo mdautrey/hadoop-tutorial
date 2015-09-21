@@ -94,9 +94,9 @@ public class TopWords {
             for (TextArrayWritable val : values) {
                 Text[] pair = (Text[]) val.toArray();
 
-                String word = pair[0].toString();
+                String words = pair[0].toString();
                 Integer count = Integer.parseInt(pair[1].toString());
-                countToWordMap.add(new Pair<Integer, String>(count, word));
+                countToWordMap.add(new Pair<Integer, String>(count, words));
                 if (countToWordMap.size() > 10) {
                     countToWordMap.remove(countToWordMap.first());
                 }
@@ -176,7 +176,11 @@ class Pair<A extends Comparable<? super A>,
     }
 
     @Override
-    public int hashCode(Object o) {
+    public int hashCode(){
+        return 31 * hashCode(first) + hashCode(second);
+    }
+
+    private static int hashCode(Object o) {
         return o == null ? 0 : o.hashCode();
     }
 
